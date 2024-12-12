@@ -1,36 +1,24 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./app.css";
-import VaccinesIcon from "@mui/icons-material/Vaccines";
-import MedicalInformationIcon from "@mui/icons-material/MedicalInformation";
-import PersonIcon from "@mui/icons-material/Person";
-import TodayIcon from "@mui/icons-material/Today";
+import HomePage from "./components/pages/HomePage";
+import AgendaPage from "./components/pages/AgendaPage";
+import UsersPage from "./components/pages/UsersPage";
+import AlergiasPage from "./components/pages/AlergiasPage";
+import VacPage from "./components/pages/VacinasPage";
+
+console.log(window.location);
 
 function App() {
-  const fontSizeValue = 20;
   return (
-    <div className="App">
-      <h1>Agenda de Vacinação</h1>
-      <h3> Menu de opções </h3>
-      <div className="btn_main_page">
-        <button>
-          <VaccinesIcon style={{ fontSize: fontSizeValue, marginRight: 4 }} />
-          GERENCIAR VACINAS
-        </button>
-        <button>
-          <MedicalInformationIcon
-            style={{ fontSize: fontSizeValue, marginRight: 4 }}
-          />
-          GERENCIAR ALERGIAS
-        </button>
-        <button>
-          <PersonIcon style={{ fontSize: fontSizeValue, marginRight: 4 }} />
-          GERENCIAR USUARIOS
-        </button>
-        <button>
-          <TodayIcon style={{ fontSize: fontSizeValue, marginRight: 4 }} />
-          GERENCIAR AGENDAS
-        </button>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/vacinas" element={<VacPage />} />
+        <Route path="/alergias" element={<AlergiasPage />} />
+        <Route path="/usuarios" element={<UsersPage />} />
+        <Route path="/agenda" element={<AgendaPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

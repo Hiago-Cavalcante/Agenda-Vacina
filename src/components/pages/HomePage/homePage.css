@@ -1,0 +1,22 @@
+.Home_Page {
+  display: flex;
+  flex-direction: column;
+}
+
+.Home_Page h1 {
+  font-weight: 100;
+}
+
+.btn_main_page {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.btn_main_page button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  margin-top: 30px;
+  color: #0c6bff;
+}
