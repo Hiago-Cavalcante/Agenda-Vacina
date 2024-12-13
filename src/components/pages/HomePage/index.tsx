@@ -4,6 +4,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import TodayIcon from "@mui/icons-material/Today";
 import "./homePage.css";
 import { useNavigate } from "react-router-dom";
+import React from 'react';
+
 
 const HomePage = function () {
   const fontSizeValue = 20;

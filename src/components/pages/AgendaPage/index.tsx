@@ -1,4 +1,6 @@
 import "./agenda.css";
+import React from 'react';
+
 
 const AgendaPage = function () {
   return (

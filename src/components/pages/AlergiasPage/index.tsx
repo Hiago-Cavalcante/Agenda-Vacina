@@ -1,4 +1,5 @@
 import "./alergia.css";
+import React from "react";
 
 const AlergiasPage = function () {
   return (

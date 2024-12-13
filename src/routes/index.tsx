@@ -4,6 +4,7 @@ import UsersPage from "../components/pages/UsersPage";
 import AlergiasPage from "../components/pages/AlergiasPage";
 import VacPage from "../components/pages/VacinasPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React from 'react';
 
 const AppRouter = () => {
   return (

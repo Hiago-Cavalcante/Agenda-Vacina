@@ -1,4 +1,5 @@
 import "./vacinas.css";
+import React from 'react';
 
 const VacPage = function () {
   return (
