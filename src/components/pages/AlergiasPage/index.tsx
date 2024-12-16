@@ -1,10 +1,21 @@
 import "./alergia.css";
-import React from "react";
+import { Button } from "@mui/material";
+import useHandleEvents from "../../BtnNavigate";
 
 const AlergiasPage = function () {
+  const { handleButtonHomePage } = useHandleEvents();
   return (
     <div className="Alergia_Page">
-      <h2>Gerenciar Alergias</h2>
+      <div className="header_agendas">
+        <Button
+          variant="outlined"
+          onClick={handleButtonHomePage}
+          className="btn_back_home_page"
+        >
+          VOLTAR
+        </Button>
+        <h1>Alergias</h1>
+      </div>
     </div>
   );
 };

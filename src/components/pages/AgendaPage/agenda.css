@@ -1,0 +1,17 @@
+.agendas_page {
+  display: flex;
+  flex-direction: column;
+}
+
+.agendas_page h1 {
+  font-weight: 100;
+}
+
+.btn_back_home_page {
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: blue;
+  margin-top: 25px;
+  
+}

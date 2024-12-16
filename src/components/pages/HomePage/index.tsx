@@ -3,27 +3,16 @@ import MedicalInformationIcon from "@mui/icons-material/MedicalInformation";
 import PersonIcon from "@mui/icons-material/Person";
 import TodayIcon from "@mui/icons-material/Today";
 import "./homePage.css";
-import { useNavigate } from "react-router-dom";
-import React from 'react';
-
+import useHandleEvents from "../../BtnNavigate";
 
 const HomePage = function () {
   const fontSizeValue = 20;
-  const navigate = useNavigate();
-
-  const handleButtonVacina = () => {
-    navigate("/vacinas");
-  };
-
-  const handleButtonAlergia = () => {
-    navigate("/alergias");
-  };
-  const handleButtonUsers = () => {
-    navigate("/usuarios");
-  };
-  const handleButtonAgenda = () => {
-    navigate("/agenda");
-  };
+  const {
+    handleButtonVacina,
+    handleButtonAlergia,
+    handleButtonUsers,
+    handleButtonAgenda,
+  } = useHandleEvents();
 
   return (
     <div className="Home_Page">
