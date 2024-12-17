@@ -1,0 +1,7 @@
+.user_page {
+  display: flex;
+}
+
+.user_page h1 {
+  font-weight: 100;
+}

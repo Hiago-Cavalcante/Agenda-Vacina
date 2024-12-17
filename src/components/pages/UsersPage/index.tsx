@@ -1,6 +1,7 @@
 import useHandleEvents from "../../BtnNavigate";
 import "./users.css";
 import { Button } from "@mui/material";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 const UsersPage = function () {
   const { handleButtonHomePage } = useHandleEvents();
@@ -8,11 +9,12 @@ const UsersPage = function () {
     <div className="user_page">
       <div className="users_header">
         <Button
-          variant="outlined"
+          size="small"
+          variant="text"
           onClick={handleButtonHomePage}
           className="btn_back_home_page"
         >
-          VOLTAR
+          <ArrowBackIosIcon style={{ fontSize: "medium" }} /> VOLTAR
         </Button>
         <h1>Usuarios</h1>
       </div>

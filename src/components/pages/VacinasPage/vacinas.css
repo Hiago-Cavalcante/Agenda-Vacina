@@ -1,0 +1,7 @@
+.vac_page {
+  display: flex;
+}
+
+.vac_page h1 {
+  font-weight: 100;
+}

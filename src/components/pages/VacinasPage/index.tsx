@@ -1,6 +1,7 @@
 import useHandleEvents from "../../BtnNavigate";
 import "./vacinas.css";
 import { Button } from "@mui/material";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 const VacPage = function () {
   const { handleButtonHomePage } = useHandleEvents();
@@ -8,14 +9,15 @@ const VacPage = function () {
     <div className="vac_page">
       <div className="vac_header">
         <Button
-          variant="outlined"
+          size="small"
+          variant="text"
           onClick={handleButtonHomePage}
           className="btn_back_home_page"
         >
-          VOLTAR
+          <ArrowBackIosIcon style={{ fontSize: "medium" }} /> VOLTAR
         </Button>
+        <h1>Vacinas</h1>
       </div>
-      <h1>Vacinas</h1>
     </div>
   );
 };

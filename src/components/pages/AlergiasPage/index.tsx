@@ -1,18 +1,20 @@
 import "./alergia.css";
 import { Button } from "@mui/material";
 import useHandleEvents from "../../BtnNavigate";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 const AlergiasPage = function () {
   const { handleButtonHomePage } = useHandleEvents();
   return (
-    <div className="Alergia_Page">
+    <div className="alergia_page">
       <div className="header_agendas">
         <Button
-          variant="outlined"
+          size="small"
+          variant="text"
           onClick={handleButtonHomePage}
           className="btn_back_home_page"
         >
-          VOLTAR
+          <ArrowBackIosIcon style={{ fontSize: "medium" }} /> VOLTAR
         </Button>
         <h1>Alergias</h1>
       </div>
