@@ -6,6 +6,11 @@
   font-weight: 100;
 }
 
+.btn_add_agenda{
+  display: flex;
+  flex-direction: row-reverse;
+}
+
 .agendas_content {
   display: flex;
   flex-direction: row;
@@ -14,5 +19,9 @@
 }
 
 .input_data_agenda{
+  margin-top: 20px;
+}
+
+.agenda_table{
   margin-top: 20px;
 }
