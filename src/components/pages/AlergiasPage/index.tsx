@@ -2,7 +2,7 @@ import "./alergia.css";
 import { Button } from "@mui/material";
 import useHandleEvents from "../../BtnNavigate";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { getAlergias } from "../../../api";
+import { getAlergias, postAlergias } from "../../../api";
 import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Table from "@mui/material/Table";
@@ -15,7 +15,7 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-interface Alergia {
+export interface Alergia {
   id: number;
   nome: string;
 }
@@ -27,34 +27,50 @@ const AlergiasPage: React.FC = function () {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
-  };
-
-  const handleButtonAddAlergia = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    console.log("Nova alergia adicionada:", value);
-    setValue(""); // Limpa o campo após adicionar
-  };
-
   useEffect(() => {
     const fetchAlergias = async () => {
       try {
-        const data = await getAlergias(); // Chama a função getAlergias
-        setAlergias(data); // Armazena os dados no estado
-        setLoading(false); // Atualiza o estado para indicar que o carregamento terminou
+        const data = await getAlergias();
+        setAlergias(data);
+        setLoading(false);
       } catch (err) {
         setError("Erro ao carregar as alergias");
         setLoading(false);
       }
     };
 
-    fetchAlergias(); // Chama a função de busca dos dados
+    fetchAlergias();
   }, []);
 
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>{error}</p>;
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+  };
+
+  const handleButtonAddAlergia = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+
+    if (!value.trim()) {
+      alert("Please, insert any alergia!");
+      return;
+    }
+
+    try {
+      await postAlergias({ nome: value });
+
+      const updatedAlergias = await getAlergias();
+      setAlergias(updatedAlergias);
+
+      setValue("");
+    } catch (err) {
+      console.error("Erro ao adicionar alergia:", err);
+      alert("Erro ao adicionar alergia");
+    }
+  };
 
   return (
     <div className="alergia_page">
@@ -73,9 +89,9 @@ const AlergiasPage: React.FC = function () {
         <div className="input_new_alergia">
           <TextField
             label="Nova Alergia"
-            variant="outlined" // "outlined", "filled" ou "standard"
+            variant="outlined"
             value={value}
-            onChange={handleInputChange} // Corrigido para capturar alterações no input
+            onChange={handleInputChange}
             fullWidth
             sx={{
               width: "600px",
@@ -87,7 +103,7 @@ const AlergiasPage: React.FC = function () {
           <Button
             variant="contained"
             color="primary"
-            onClick={handleButtonAddAlergia} // Função do clique no botão corrigida
+            onClick={handleButtonAddAlergia}
             style={{ marginBottom: 16, height: "40px" }}
           >
             Adicionar
@@ -99,12 +115,12 @@ const AlergiasPage: React.FC = function () {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Alergias</TableCell>
+                <TableCell>Todas Alergias:</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {alergias?.map((alergia) => (
-                <TableRow key={alergia.id}>
+                <TableRow key={alergia.id || `alergia-${Math.random()}`}>
                   <TableCell>{alergia.nome}</TableCell>
                 </TableRow>
               ))}
