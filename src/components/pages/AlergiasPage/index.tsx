@@ -1,22 +1,24 @@
 import "./alergia.css";
-import { Button } from "@mui/material";
 import useHandleEvents from "../../BtnNavigate";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { getAlergias, postAlergias } from "../../../api";
+import { getAlergias, postAlergias, deleteAlergia } from "../../../api";
 import { useState, useEffect } from "react";
-import TextField from "@mui/material/TextField";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  TextField,
+  Button,
+  IconButton as MuiIconButton, // Renomeando para evitar conflitos
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 export interface Alergia {
-  id: number;
+  id: string;
   nome: string;
 }
 
@@ -72,6 +74,19 @@ const AlergiasPage: React.FC = function () {
     }
   };
 
+  const handleDeleteAlergia = async (id: string) => {
+    try {
+      await deleteAlergia(id);
+      // Atualiza o estado removendo a alergia deletada
+      setAlergias((prevAlergias) =>
+        prevAlergias.filter((alergia) => alergia.id !== id)
+      );
+    } catch (err) {
+      console.error("Erro ao deletar alergia:", err);
+      alert("Erro ao deletar alergia");
+    }
+  };
+
   return (
     <div className="alergia_page">
       <div className="header_alergia">
@@ -115,13 +130,21 @@ const AlergiasPage: React.FC = function () {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Todas Alergias:</TableCell>
+                <TableCell>Alergias:</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {alergias?.map((alergia) => (
                 <TableRow key={alergia.id || `alergia-${Math.random()}`}>
                   <TableCell>{alergia.nome}</TableCell>
+                  <TableCell>
+                    <MuiIconButton
+                      onClick={() => handleDeleteAlergia(alergia.id)}
+                      color="error"
+                    >
+                      <DeleteIcon />
+                    </MuiIconButton>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

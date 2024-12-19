@@ -31,7 +31,6 @@ export async function postAlergias(dados: { nome: string }): Promise<Alergia> {
 
     console.log("Resposta completa:", response);
 
-   
     if (!response.data) {
       const getResponse = await axios.get<Alergia[]>(`${url}/alergias`);
       const newAlergia = getResponse.data[getResponse.data.length - 1];
@@ -41,6 +40,15 @@ export async function postAlergias(dados: { nome: string }): Promise<Alergia> {
     return response.data;
   } catch (error) {
     console.error("Erro na requisição:", error);
+    throw error;
+  }
+}
+
+export async function deleteAlergia(id: string): Promise<void> {
+  try {
+    await axios.delete(`${url}/alergias/${id}`);
+  } catch (error) {
+    console.error("Erro ao deletar alergia:", error);
     throw error;
   }
 }
