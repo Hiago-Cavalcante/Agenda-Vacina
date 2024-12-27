@@ -1,24 +1,26 @@
 .alergia_page {
   display: flex;
   flex-direction: column;
+  width: 1500px;
 }
 
 .alergia_page h1 {
   font-weight: 100;
 }
 
-.alergia_content {
-  display: flex;
-  gap: 20px;
-  margin-left: 300px;
-}
-
-.btn_add_alergia {
+.alergia_form {
   display: flex;
   flex-direction: row-reverse;
 }
 
-.alergia_table{
-  margin-left: 350px;
+.btn_add_alergia {
+  display: flex;
+  position: relative;
+  flex-direction: row-reverse;
+  gap: 10px;
+}
+
+.alergia_table {
+  margin-left: 20px;
   margin-top: 20px;
 }

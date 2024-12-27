@@ -13,7 +13,9 @@ import {
   Paper,
   TextField,
   Button,
-  IconButton as MuiIconButton, // Renomeando para evitar conflitos
+  Modal,
+  Box,
+  IconButton as MuiIconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -28,6 +30,21 @@ const AlergiasPage: React.FC = function () {
   const [value, setValue] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 600,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 2,
+    gap: 20,
+  };
 
   useEffect(() => {
     const fetchAlergias = async () => {
@@ -77,7 +94,6 @@ const AlergiasPage: React.FC = function () {
   const handleDeleteAlergia = async (id: string) => {
     try {
       await deleteAlergia(id);
-      // Atualiza o estado removendo a alergia deletada
       setAlergias((prevAlergias) =>
         prevAlergias.filter((alergia) => alergia.id !== id)
       );
@@ -100,37 +116,73 @@ const AlergiasPage: React.FC = function () {
         </Button>
         <h1>Alergias</h1>
       </div>
-      <div className="alergia_content">
-        <div className="input_new_alergia">
-          <TextField
-            label="Nova Alergia"
-            variant="outlined"
-            value={value}
-            onChange={handleInputChange}
-            fullWidth
-            sx={{
-              width: "600px",
-            }}
-          />
-        </div>
-
-        <div className="btn_add_alergia">
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleButtonAddAlergia}
-            style={{ marginBottom: 16, height: "40px" }}
-          >
-            Adicionar
-          </Button>
-        </div>
+      <div className="alergia_form">
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ marginBottom: 16, height: "40px" }}
+          onClick={handleOpen}
+        >
+          Adicionar Nova Alergia
+        </Button>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Box sx={{ mb: 3 }}>
+              <h3>Adicionar Nova Alergia</h3>
+            </Box>
+            <TextField
+              label="Nome"
+              variant="outlined"
+              value={value}
+              onChange={handleInputChange}
+              fullWidth
+              sx={{
+                mb: 3,
+              }}
+            />
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end", // Alinha os botões à direita
+                gap: "6px", // Espaçamento de 6px entre os botões
+              }}
+            >
+              <Button
+                variant="text"
+                color="primary"
+                onClick={handleClose}
+                sx={{
+                  height: "40px",
+                }}
+              >
+                CANCELAR
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleButtonAddAlergia}
+                sx={{
+                  height: "40px",
+                }}
+              >
+                ADICIONAR
+              </Button>
+            </Box>
+          </Box>
+        </Modal>
       </div>
       <div className="alergia_table">
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Alergias:</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Nome</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Ações</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
