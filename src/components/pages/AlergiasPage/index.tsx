@@ -148,8 +148,8 @@ const AlergiasPage: React.FC = function () {
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "flex-end", // Alinha os botões à direita
-                gap: "6px", // Espaçamento de 6px entre os botões
+                justifyContent: "flex-end", 
+                gap: "6px",
               }}
             >
               <Button
