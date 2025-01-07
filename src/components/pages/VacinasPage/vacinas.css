@@ -1,7 +1,16 @@
 .vac_page {
   display: flex;
+  flex-direction: column;
+  width: 1500px;
 }
 
 .vac_page h1 {
   font-weight: 100;
+}
+
+.vac_btn_add {
+  display: flex;
+  position: relative;
+  flex-direction: row-reverse;
+  gap: 10px;
 }
