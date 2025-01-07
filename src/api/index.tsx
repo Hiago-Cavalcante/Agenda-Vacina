@@ -52,3 +52,24 @@ export async function deleteAlergia(id: string): Promise<void> {
     throw error;
   }
 }
+
+export async function getVacinas() {
+  try {
+    const response = await axios.get(`${url}/vacinas`);
+    console.log(response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.error("Erro ao buscar vacinas:", error);
+    throw error;
+  }
+}
+
+
+export async function deleteVacinas(id: string): Promise<void> {
+  try {
+    await axios.delete(`${url}/vacinas/${id}`);
+  } catch (error) {
+    console.error("Erro ao deletar vacina:", error);
+    throw error;
+  }
+}

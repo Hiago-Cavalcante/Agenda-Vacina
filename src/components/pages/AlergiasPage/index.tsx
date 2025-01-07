@@ -18,6 +18,7 @@ import {
   IconButton as MuiIconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { style } from "../../Style";
 
 export interface Alergia {
   id: string;
@@ -32,18 +33,9 @@ const AlergiasPage: React.FC = function () {
   const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 600,
-    bgcolor: "background.paper",
-    boxShadow: 24,
-    p: 2,
-    gap: 20,
+  const handleClose = () => {
+    setOpen(false);
+    setValue("");
   };
 
   useEffect(() => {
@@ -148,7 +140,7 @@ const AlergiasPage: React.FC = function () {
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "flex-end", 
+                justifyContent: "flex-end",
                 gap: "6px",
               }}
             >
