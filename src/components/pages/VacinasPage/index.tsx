@@ -15,7 +15,7 @@ import {
   IconButton as MuiIconButton,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { deleteVacinas, getVacinas } from "../../../api";
+import { deleteVacinas, getVacinas, postVacinas } from "../../../api";
 import { useEffect, useState } from "react";
 import { style } from "../../Style";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -112,6 +112,39 @@ const VacPage: React.FC = function () {
     } catch (err) {
       console.error("Erro ao deletar vacina:", err);
       alert("Erro ao deletar vacina");
+    }
+  };
+
+  const handleButtonAddVacinas = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+
+    if (
+      !valueTitulo.trim() ||
+      !valueDescricao.trim() ||
+      !valueDoses ||
+      !valuePerio.trim() ||
+      !valueIntervalo
+    ) {
+      alert("Please, insert any vacina!");
+      return;
+    }
+
+    try {
+      await postVacinas({
+        titulo: valueTitulo,
+        descricao: valueDescricao,
+        doses: valueDoses,
+        periodicidade: valuePerio,
+        intervalo: valueIntervalo,
+      });
+
+      const updatedVacinas = await getVacinas();
+      setVacinas(updatedVacinas);
+    } catch (err) {
+      console.error("Erro ao adicionar vacina:", err);
+      alert("Erro ao adicionar vacina");
     }
   };
 
@@ -219,6 +252,7 @@ const VacPage: React.FC = function () {
                 <Button
                   variant="contained"
                   color="primary"
+                  onClick={handleButtonAddVacinas}
                   sx={{
                     height: "40px",
                   }}
