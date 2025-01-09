@@ -1,7 +1,16 @@
 .user_page {
   display: flex;
+  flex-direction: column;
+  width: 1500px;
 }
 
 .user_page h1 {
   font-weight: 100;
+}
+
+.user_btn_add {
+  display: flex;
+  position: relative;
+  flex-direction: row-reverse;
+  gap: 10px;
 }
