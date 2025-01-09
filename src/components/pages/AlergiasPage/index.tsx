@@ -75,8 +75,7 @@ const AlergiasPage: React.FC = function () {
 
       const updatedAlergias = await getAlergias();
       setAlergias(updatedAlergias);
-
-      setValue("");
+      handleClose();
     } catch (err) {
       console.error("Erro ao adicionar alergia:", err);
       alert("Erro ao adicionar alergia");
