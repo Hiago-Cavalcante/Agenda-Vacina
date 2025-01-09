@@ -63,9 +63,9 @@ const VacPage: React.FC = function () {
   const handleClose = () => {
     setValueTitulo("");
     setValueDescricao("");
-    setValueDoses(undefined);
+    setValueDoses(NaN);
     setValuePerio("");
-    setValueIntervalo(undefined);
+    setValueIntervalo(NaN);
     setOpen(false);
   };
 
@@ -142,6 +142,7 @@ const VacPage: React.FC = function () {
 
       const updatedVacinas = await getVacinas();
       setVacinas(updatedVacinas);
+      handleClose();
     } catch (err) {
       console.error("Erro ao adicionar vacina:", err);
       alert("Erro ao adicionar vacina");
