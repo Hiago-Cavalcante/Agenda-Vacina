@@ -1,13 +1,13 @@
 import axios from "axios";
 import { Alergia } from "../components/pages/AlergiasPage";
 import { Vacina } from "../components/pages/VacinasPage";
+import { User } from "../components/pages/UsersPage";
 
 const url = "http://localhost:8080";
 
 export async function getAlergias() {
   try {
     const response = await axios.get(`${url}/alergias`);
-    console.log(response.data.data);
     return response.data.data;
   } catch (error) {
     console.error("Erro ao buscar alergias:", error);
@@ -57,14 +57,12 @@ export async function deleteAlergia(id: string): Promise<void> {
 export async function getVacinas() {
   try {
     const response = await axios.get(`${url}/vacinas`);
-    console.log(response.data.data);
     return response.data.data;
   } catch (error) {
     console.error("Erro ao buscar vacinas:", error);
     throw error;
   }
 }
-
 
 export async function deleteVacinas(id: string): Promise<void> {
   try {
@@ -75,7 +73,13 @@ export async function deleteVacinas(id: string): Promise<void> {
   }
 }
 
-export async function postVacinas(dados: { titulo: string, descricao: string, doses: number, periodicidade: string, intervalo: number }): Promise<Vacina> {
+export async function postVacinas(dados: {
+  titulo: string;
+  descricao: string;
+  doses: number;
+  periodicidade: string;
+  intervalo: number;
+}): Promise<Vacina> {
   try {
     const config = {
       headers: {
@@ -84,11 +88,7 @@ export async function postVacinas(dados: { titulo: string, descricao: string, do
     };
 
     console.log("Enviando para o servidor:", dados);
-    const response = await axios.post<Vacina>(
-      `${url}/vacinas`,
-      dados,
-      config
-    );
+    const response = await axios.post<Vacina>(`${url}/vacinas`, dados, config);
 
     console.log("Resposta completa:", response);
 
@@ -96,6 +96,52 @@ export async function postVacinas(dados: { titulo: string, descricao: string, do
       const getResponse = await axios.get<Vacina[]>(`${url}/vacinas`);
       const newVacinas = getResponse.data[getResponse.data.length - 1];
       return newVacinas;
+    }
+
+    return response.data;
+  } catch (error) {
+    console.error("Erro na requisição:", error);
+    throw error;
+  }
+}
+
+export async function getUsers() {
+  try {
+    const response = await axios.get(`${url}/usuarios`);
+    console.log("response", response);
+    return response.data.data;
+  } catch (error) {
+    console.error("Erro ao buscar users:", error);
+    throw error;
+  }
+}
+
+export async function postUsers(dados: {
+  nome: string;
+  dataNascimento: string;
+  sexo: string;
+  logradouro: string;
+  numero: string;
+  setor: string;
+  cidade: string;
+  uf: string;
+}): Promise<User> {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    console.log("Enviando para o servidor:", dados);
+    const response = await axios.post<User>(`${url}/usuarios`, dados, config);
+
+    console.log("Resposta completa:", response);
+
+    if (!response.data) {
+      const getResponse = await axios.get<User[]>(`${url}/usuarios`);
+      const newUsers = getResponse.data[getResponse.data.length - 1];
+      return newUsers;
     }
 
     return response.data;
