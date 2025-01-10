@@ -150,3 +150,12 @@ export async function postUsers(dados: {
     throw error;
   }
 }
+
+export async function deleteUsers(id: string): Promise<void> {
+  try {
+    await axios.delete(`${url}/usuarios/${id}`);
+  } catch (error) {
+    console.error("Erro ao deletar Usuario:", error);
+    throw error;
+  }
+}

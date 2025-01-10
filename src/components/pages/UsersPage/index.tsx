@@ -24,7 +24,7 @@ import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOut
 import { useState } from "react";
 import { style } from "../../Style";
 import { useEffect } from "react";
-import { getUsers, postUsers } from "../../../api";
+import { deleteUsers, getUsers, postUsers } from "../../../api";
 import { Alergia } from "../AlergiasPage";
 
 const estadosBrasil = [
@@ -73,6 +73,8 @@ export interface User {
 const UsersPage = function () {
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState<User[]>([]);
+  const [openDelete, setOpenDelete] = useState(false);
+
   const { handleButtonHomePage } = useHandleEvents();
   const [valueNome, setValueNome] = useState<string>("");
   const [valueDataNascimento, setValueDataNascimento] = useState<string>("");
@@ -97,6 +99,9 @@ const UsersPage = function () {
     setValueCidade("");
     setValueUF("");
   };
+
+  const handleOpenDelete = () => setOpenDelete(true);
+  const handleCloseDelete = () => setOpenDelete(false);
 
   const handleInputNome = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValueNome(event.target.value);
@@ -177,6 +182,17 @@ const UsersPage = function () {
     } catch (err) {
       console.error("Erro ao adicionar usuario:", err);
       alert("Erro ao adicionar usuario");
+    }
+  };
+
+  const handleBtnDeleteUser = async (id: string) => {
+    try {
+      await deleteUsers(id);
+      setUser((prevUser) => prevUser.filter((user) => user.id !== id));
+      setOpenDelete(false);
+    } catch (err) {
+      console.error("Erro ao deletar usuario:", err);
+      alert("Erro ao deletar usuario");
     }
   };
 
@@ -376,7 +392,7 @@ const UsersPage = function () {
                         "N/A"}
                     </TableCell>
                     <TableCell>
-                      <IconButton color="error">
+                      <IconButton onClick={handleOpenDelete} color="error">
                         <DeleteIcon />
                       </IconButton>
                     </TableCell>
@@ -386,6 +402,46 @@ const UsersPage = function () {
             </TableBody>
           </Table>
         </TableContainer>
+        {user?.map((user) => {
+          return (
+            <Modal open={openDelete} onClose={handleCloseDelete}>
+              <Box sx={style}>
+                <h2>Excluir Usuario</h2>
+                <Box sx={{ mb: 1 }}>
+                  <p>Tem certeza que deseja excluir o usuario?</p>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      gap: "6px",
+                    }}
+                  >
+                    <Button
+                      variant="text"
+                      color="primary"
+                      onClick={handleCloseDelete}
+                      sx={{
+                        height: "40px",
+                      }}
+                    >
+                      CANCELAR
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleBtnDeleteUser(user.id)}
+                      sx={{
+                        height: "40px",
+                      }}
+                    >
+                      EXCLUIR
+                    </Button>
+                  </Box>
+                </Box>
+              </Box>
+            </Modal>
+          );
+        })}
       </div>
     </div>
   );
