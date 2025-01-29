@@ -78,7 +78,7 @@ export async function postVacinas(dados: {
   descricao: string;
   doses: number;
   periodicidade: string;
-  intervalo: number;
+  intervalo?: string;
 }): Promise<Vacina> {
   try {
     const config = {

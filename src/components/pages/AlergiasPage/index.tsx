@@ -32,6 +32,9 @@ const AlergiasPage: React.FC = function () {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
@@ -81,6 +84,9 @@ const AlergiasPage: React.FC = function () {
       alert("Erro ao adicionar alergia");
     }
   };
+
+  const handleOpenDelete = () => setOpenDelete(true);
+  const handleCloseDelete = () => setOpenDelete(false);
 
   const handleDeleteAlergia = async (id: string) => {
     try {
@@ -182,7 +188,7 @@ const AlergiasPage: React.FC = function () {
                   <TableCell>{alergia.nome}</TableCell>
                   <TableCell>
                     <MuiIconButton
-                      onClick={() => handleDeleteAlergia(alergia.id)}
+                      onClick={() => handleOpenDelete()}
                       color="error"
                     >
                       <DeleteIcon />
@@ -193,6 +199,46 @@ const AlergiasPage: React.FC = function () {
             </TableBody>
           </Table>
         </TableContainer>
+        {alergias?.map((alergia) => {
+          return (
+            <Modal open={openDelete} onClose={handleCloseDelete}>
+              <Box sx={style}>
+                <h2>Excluir Vacina</h2>
+                <Box sx={{ mb: 1 }}>
+                  <p>Tem certeza que deseja excluir a vacina?</p>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      gap: "6px",
+                    }}
+                  >
+                    <Button
+                      variant="text"
+                      color="primary"
+                      onClick={handleCloseDelete}
+                      sx={{
+                        height: "40px",
+                      }}
+                    >
+                      CANCELAR
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() =>  handleDeleteAlergia(alergia.id)}
+                      sx={{
+                        height: "40px",
+                      }}
+                    >
+                      EXCLUIR
+                    </Button>
+                  </Box>
+                </Box>
+              </Box>
+            </Modal>
+          );
+        })}
       </div>
     </div>
   );

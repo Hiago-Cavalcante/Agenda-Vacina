@@ -24,9 +24,9 @@ export interface Vacina {
   id: string;
   titulo: string;
   descricao: string;
-  doses: number;
-  periodicidade: string;
-  intervalo: number;
+  doses: string;
+  periodicidade?: string;
+  intervalo?: string;
 }
 const periodicidade = [
   {
@@ -57,7 +57,8 @@ const VacPage: React.FC = function () {
   const [valueDescricao, setValueDescricao] = useState<string>("");
   const [valueDoses, setValueDoses] = useState<number>();
   const [valuePerio, setValuePerio] = useState<string>("");
-  const [valueIntervalo, setValueIntervalo] = useState<number>();
+  const [valueIntervalo, setValueIntervalo] = useState<string>();
+  const [openDelete, setOpenDelete] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -65,7 +66,7 @@ const VacPage: React.FC = function () {
     setValueDescricao("");
     setValueDoses(NaN);
     setValuePerio("");
-    setValueIntervalo(NaN);
+    setValueIntervalo("");
     setOpen(false);
   };
 
@@ -83,7 +84,7 @@ const VacPage: React.FC = function () {
     setValuePerio(event.target.value);
   };
   const handleInputIntervalo = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValueIntervalo(Number(event.target.value));
+    setValueIntervalo(event.target.value);
   };
   useEffect(() => {
     const fetchVacinas = async () => {
@@ -103,31 +104,18 @@ const VacPage: React.FC = function () {
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>{error}</p>;
 
-  const handleDeleteVacinas = async (id: string) => {
-    try {
-      await deleteVacinas(id);
-      setVacinas((prevVacina) =>
-        prevVacina.filter((vacina) => vacina.id !== id)
-      );
-    } catch (err) {
-      console.error("Erro ao deletar vacina:", err);
-      alert("Erro ao deletar vacina");
-    }
-  };
+  const handleOpenDelete = () => setOpenDelete(true);
+  const handleCloseDelete = () => setOpenDelete(false);
 
   const handleButtonAddVacinas = async (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
 
-    if (
-      !valueTitulo.trim() ||
-      !valueDescricao.trim() ||
-      !valueDoses ||
-      !valuePerio.trim() ||
-      !valueIntervalo
-    ) {
-      alert("Please, insert any vacina!");
+    if (!valueTitulo.trim() || !valueDescricao.trim() || !valueDoses) {
+      alert(
+        "Por favor, preencha os campos obrigatórios: Título, Descrição e Doses!"
+      );
       return;
     }
 
@@ -149,6 +137,16 @@ const VacPage: React.FC = function () {
     }
   };
 
+  const handleBtnDeleteUser = async (id: string) => {
+    try {
+      await deleteVacinas(id);
+      setVacinas((prevVac) => prevVac.filter((Vac) => Vac.id !== id));
+      setOpenDelete(false);
+    } catch (err) {
+      console.error("Erro ao deletar usuario:", err);
+      alert("Erro ao deletar usuario");
+    }
+  };
   return (
     <div className="vac_page">
       <div className="vac_header">
@@ -287,10 +285,7 @@ const VacPage: React.FC = function () {
                   <TableCell>{vacinas.periodicidade}</TableCell>
                   <TableCell>{vacinas.intervalo}</TableCell>
                   <TableCell>
-                    <MuiIconButton
-                      onClick={() => handleDeleteVacinas(vacinas.id)}
-                      color="error"
-                    >
+                    <MuiIconButton onClick={handleOpenDelete} color="error">
                       <DeleteIcon />
                     </MuiIconButton>
                   </TableCell>
@@ -299,6 +294,46 @@ const VacPage: React.FC = function () {
             </TableBody>
           </Table>
         </TableContainer>
+        {vacinas?.map((vacinas) => {
+          return (
+            <Modal open={openDelete} onClose={handleCloseDelete}>
+              <Box sx={style}>
+                <h2>Excluir Vacina</h2>
+                <Box sx={{ mb: 1 }}>
+                  <p>Tem certeza que deseja excluir a vacina?</p>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      gap: "6px",
+                    }}
+                  >
+                    <Button
+                      variant="text"
+                      color="primary"
+                      onClick={handleCloseDelete}
+                      sx={{
+                        height: "40px",
+                      }}
+                    >
+                      CANCELAR
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleBtnDeleteUser(vacinas.id)}
+                      sx={{
+                        height: "40px",
+                      }}
+                    >
+                      EXCLUIR
+                    </Button>
+                  </Box>
+                </Box>
+              </Box>
+            </Modal>
+          );
+        })}
       </div>
     </div>
   );
